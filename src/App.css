@@ -28,7 +28,7 @@ body {
   background-color: #fff;
   border-radius: 16px;
   font-size: 15px;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
   color: #455963;
   box-shadow: 0 20px 80px rgba(0, 0, 0, 0.3);

@@ -1,22 +1,17 @@
-// import { useState } from "react"
+
 import style from "./post.module.css"
 
-export const Post =({products})=>{
+export const Post =({task, deletePost, index, edit})=>{
 	return (
-
-		products.map((item)=>{
-			return (
+		
 				<div className={style.postWrapper}>
-					<span className={style.postTitle}>{item.title}</span>
-					{/* <div className={style.postButtons}>
-						<button>Post</button>
-						<button>Edit</button>
-						<button>Delete</button>
-					</div> */}
+					<span className={style.postTitle}>{task.task}</span>
+					<div className={style.postButtons}>
+						<button onClick={() => edit(index)}>Edit</button>
+						<button onClick={() => deletePost(task.id)}>Delete</button>
+					</div>
 				</div>
 			)
-		})
-	)
 }
 
 export default Post
