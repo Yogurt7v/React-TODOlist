@@ -12,21 +12,19 @@ body {
 
   background-repeat: no-repeat;
   background-size: cover;
-  /* display: flex;
+  display: flex;
   flex-direction: column;
-  padding: 20px;
-  height: 100vh;
-  overflow: hidden; */
+  /* padding: 20px; */
+  /* height: 100%; */
+  /* overflow: hidden; */
 }
 
 .App {
-  top: 50%;
-  left: 50%;
-  transform: translate(0, 15%);
-  max-width: 400px;
-  max-height: 50%;
-  /* width: 100%; */
+  width: 600px;
+  max-height: max-content;
+  height: 99%;
   margin: auto;
+  margin-top: 40px;
   background-color: #fff;
   border-radius: 16px;
   font-size: 15px;
@@ -34,6 +32,8 @@ body {
   overflow-x: hidden;
   color: #455963;
   box-shadow: 0 20px 80px rgba(0, 0, 0, 0.3);
+  overflow: auto;
+  opacity: 0.9;
 }
 
 h1 {
