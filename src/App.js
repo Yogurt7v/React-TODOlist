@@ -7,6 +7,14 @@ import Post from "./components/Post";
 function App() {
   const [todoList, setTodoList] = useState([]);
 
+  useEffect(() => {
+    fetch("http://localhost:3004/todo")
+      .then((loadedData) => loadedData.json())
+      .then((loadedToDos) => {
+        setTodoList(loadedToDos);
+      });
+  }, []);
+
   const create = (todo) => {
     setTodoList([
       ...todoList,
@@ -14,13 +22,9 @@ function App() {
     ]);
   };
   const edit = (i) => {
-    console.log(todoList[i].task);
-    setTodoList([
-      (todoList[i] = {
-        id: todoList[i].id,
-        task: prompt("Enter new task"),
-      }),
-    ]);
+    let newArr = [...todoList];
+    newArr[i].task = prompt("Измените задачу");
+    setTodoList([...newArr]);
   };
 
   const deletePost = (id) => {
@@ -32,7 +36,13 @@ function App() {
       <h1>To Do List</h1>
       <AddPost create={create} />
       {todoList.map((todo, index) => (
-        <Post task={todo} index={index} deletePost={deletePost} edit={edit} />
+        <Post
+          key={todo.id}
+          task={todo}
+          index={index}
+          deletePost={deletePost}
+          edit={edit}
+        />
       ))}
       <p className="AppFooter"></p>
     </div>
