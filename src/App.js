@@ -17,7 +17,7 @@ function App() {
 
   const create = (todo) => {
     let id = Math.floor(Math.random() * 10000000);
-    fetch(`http://localhost:3004/todo/`, {
+    fetch("http://localhost:3004/todo/", {
       method: "POST",
       headers: { "Content-Type": "application/json;charset=utf-8" },
       body: JSON.stringify({
@@ -27,7 +27,6 @@ function App() {
     })
       .then((rawResponse) => rawResponse.json())
       .then((response) => {
-        console.log("Смартфон обновлён, ответ сервера:", response);
         setTodoList([...todoList, response]);
       });
   };
@@ -43,7 +42,6 @@ function App() {
     })
       .then((rawResponse) => rawResponse.json())
       .then((response) => {
-        console.log("полученое значение", response);
         todoList[index] = response;
         setTodoList([...todoList]);
       });
