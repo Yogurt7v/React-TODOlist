@@ -50,7 +50,15 @@ function App() {
   };
 
   const deletePost = (id) => {
-    setTodoList(todoList.filter((todo) => todo.id !== id));
+    fetch(`http://localhost:3004/todo/${id}`, {
+      method: "DELETE",
+    })
+      .then((rawResponse) => rawResponse.json())
+      .then((response) => {
+        console.log("Фен удалён, ответ сервера: ", response);
+        setTodoList([...todoList]);
+        setTodoList(todoList.filter((todo) => todo.id !== id));
+      });
   };
 
   return (
