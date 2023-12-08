@@ -55,7 +55,6 @@ function App() {
     })
       .then((rawResponse) => rawResponse.json())
       .then((response) => {
-        console.log("Фен удалён, ответ сервера: ", response);
         setTodoList([...todoList]);
         setTodoList(todoList.filter((todo) => todo.id !== id));
       });
