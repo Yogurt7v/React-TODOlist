@@ -32,17 +32,13 @@ function App() {
       });
   };
   const edit = (i) => {
-    // let newArr = [...todoList];
     let index = todoList.findIndex((el) => el.id === i);
-    let id = todoList[index].id;
-    let newValue = prompt("Измените задачу");
-    console.log(id);
-    fetch(`http://localhost:3004/todo/${id}`, {
+    fetch(`http://localhost:3004/todo/${todoList[index].id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json;charset=utf-8" },
       body: JSON.stringify({
-        id: id,
-        task: newValue,
+        id: `${todoList[index].id}`,
+        task: prompt("Измените задачу"),
       }),
     })
       .then((rawResponse) => rawResponse.json())
@@ -51,7 +47,6 @@ function App() {
         todoList[index] = response;
         setTodoList([...todoList]);
       });
-    // setTodoList([a, ...todoList]);
   };
 
   const deletePost = (id) => {
