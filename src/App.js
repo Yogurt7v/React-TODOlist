@@ -16,15 +16,42 @@ function App() {
   }, []);
 
   const create = (todo) => {
-    setTodoList([
-      ...todoList,
-      { id: Math.floor(Math.random() * 10000000), task: todo },
-    ]);
+    let id = Math.floor(Math.random() * 10000000);
+    fetch(`http://localhost:3004/todo/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=utf-8" },
+      body: JSON.stringify({
+        id: id,
+        task: `${todo}`,
+      }),
+    })
+      .then((rawResponse) => rawResponse.json())
+      .then((response) => {
+        console.log("Смартфон обновлён, ответ сервера:", response);
+        setTodoList([...todoList, response]);
+      });
   };
   const edit = (i) => {
-    let newArr = [...todoList];
-    newArr[i].task = prompt("Измените задачу");
-    setTodoList([...newArr]);
+    // let newArr = [...todoList];
+    let index = todoList.findIndex((el) => el.id === i);
+    let id = todoList[index].id;
+    let newValue = prompt("Измените задачу");
+    console.log(id);
+    fetch(`http://localhost:3004/todo/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json;charset=utf-8" },
+      body: JSON.stringify({
+        id: id,
+        task: newValue,
+      }),
+    })
+      .then((rawResponse) => rawResponse.json())
+      .then((response) => {
+        console.log("полученое значение", response);
+        todoList[index] = response;
+        setTodoList([...todoList]);
+      });
+    // setTodoList([a, ...todoList]);
   };
 
   const deletePost = (id) => {
