@@ -3,6 +3,7 @@ import React from "react";
 import { AddPost } from "./components/AddPost";
 import { useState, useEffect } from "react";
 import Post from "./components/Post";
+import { Search } from "./components/Search";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
@@ -62,6 +63,8 @@ function App() {
     <div className="App">
       <h1>To Do List</h1>
       <AddPost create={create} />
+      <button>Search</button>
+      <Search todoList={todoList}></Search>
       {todoList.map((todo, index) => (
         <Post
           key={todo.id}

@@ -14,9 +14,6 @@ body {
   background-size: cover;
   display: flex;
   flex-direction: column;
-  /* padding: 20px; */
-  /* height: 100%; */
-  /* overflow: hidden; */
 }
 
 .App {
