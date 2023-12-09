@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
 .postWrapper {
   display: flex;
   flex-direction: column;
@@ -25,7 +27,7 @@ input:focus-visible {
 
 .postButtons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 button {
   border: none;
@@ -33,8 +35,8 @@ button {
   padding: 5px 10px;
   margin: 0 10px;
   cursor: pointer;
-  color: black;
-  background-color: #adcdfc;
+  color: white;
+  background-color: #5986db;
   width: 100px;
   height: 40px;
   font-weight: 700;
@@ -43,16 +45,16 @@ button {
 .postTitle {
   display: flex;
   margin: auto;
-  justify-content: flex-start;
+  justify-content: center;
   /* padding: 5px 50px 5px 50px; */
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Roboto";
   font-weight: 400;
-  font-size: 25px;
+  font-size: 30px;
   color: black;
   outline: none;
   width: 90%;
   border: none;
   border-bottom: 0.5px solid grey;
   margin-bottom: 30px;
+  padding-bottom: 5px;
 }

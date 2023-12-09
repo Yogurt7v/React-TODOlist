@@ -20,8 +20,8 @@ export const AddPost =({create}) => {
 
 	return (
 		<form className={style.allPostsForm} onSubmit={handleSubmit}>
-			<input type="text" placeholder="Новая задача" className={style.allPostsInput} onChange={handleChange} value={newTask}/>
-			<button>Добавить</button>
+			<input type="text" placeholder="New task" onChange={handleChange} value={newTask}/>
+			<button>Add new</button>
 		</form>
 	);
 }

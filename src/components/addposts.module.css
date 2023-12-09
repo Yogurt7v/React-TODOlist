@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
 .allPostsForm {
   padding: 0 50px 0 50px;
   display: flex;
@@ -8,12 +10,32 @@
   width: 100%;
   height: 50px;
   border-bottom: 0.5px solid black;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  font-family: "Roboto";
+}
+
+.allPostsForm input:focus {
+  border: 0.5px solid #5986db;
+  border-radius: 4px;
+}
+.allPostsForm input::placeholder {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  font-family: "Roboto";
+  color: #99abcb;
 }
 
 .allPostsForm button {
   height: 50px;
   border: 0.5px solid grey;
   border-radius: 4px;
-  background-color: rgb(89, 134, 219);
+  background-color: #5986db;
   color: white;
+}
+
+.allPostsForm button:hover {
+  background-color: #185bd6;
 }

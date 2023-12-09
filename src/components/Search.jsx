@@ -13,10 +13,10 @@ export const Search = ({todoList, searchVisble}) => {
 	return (
 		<div className={style.search}>
 			{searchVisble === true ? (
-   			<input type="text" placeholder="Поиск" onChange={startSearch}/>
+   			<input type="text" className={style.input} placeholder="What task are we looking for?" onChange={startSearch}/>
 
 			) : ""}
-			{searchVisble === true? message : ""}
+			{searchVisble === true? <div className={style.text}>{message}</div> : ""}
 		</div>
 	)
 }

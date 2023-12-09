@@ -1,3 +1,15 @@
 .search {
-  padding: 0 50px 0 50px;
+  padding: 20px 75px 20px 75px;
+}
+
+.input:focus {
+  border: none;
+  border-radius: 0;
+  border-bottom: 1.5px solid #5986db;
+}
+
+.text {
+  font-size: 30px;
+  text-align: center;
+  color: brown;
 }

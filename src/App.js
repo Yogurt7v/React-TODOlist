@@ -8,6 +8,8 @@ import { Search } from "./components/Search";
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [searchVisble, setSearchVisble] = useState(false);
+  const [sortedList, setSortedList] = useState(false);
+  // let isSorted = false;
 
   useEffect(() => {
     fetch("http://localhost:3004/todo")
@@ -61,8 +63,25 @@ function App() {
   };
 
   const visible = () => {
-    console.log("searchVisble", searchVisble);
     setSearchVisble(!searchVisble);
+  };
+
+  const sort = () => {
+    const startedArr = [...todoList];
+
+    if (!sortedList) {
+      console.log("первый вариант");
+      const sortedArr = [...startedArr].sort((a, b) =>
+        a.task.localeCompare(b.task)
+      );
+      setTodoList(sortedArr);
+      setSortedList(!sortedList);
+    }
+    if (sortedList) {
+      console.log("второй вариант");
+      setTodoList(startedArr);
+      setSortedList(!sortedList);
+    }
   };
 
   return (
@@ -71,6 +90,9 @@ function App() {
       <AddPost create={create} />
       <button className="searchButton" onClick={visible}>
         Search
+      </button>
+      <button className="sortButton" onClick={sort}>
+        Sort
       </button>
       <Search todoList={todoList} searchVisble={searchVisble}></Search>
       {todoList.map((todo, index) => (
