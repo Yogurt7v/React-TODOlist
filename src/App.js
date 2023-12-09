@@ -9,7 +9,7 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [searchVisble, setSearchVisble] = useState(false);
   const [sortedList, setSortedList] = useState(false);
-  // let isSorted = false;
+  const [prevTodo, setPrevTodo] = useState([...todoList]);
 
   useEffect(() => {
     fetch("http://localhost:3004/todo")
@@ -67,19 +67,19 @@ function App() {
   };
 
   const sort = () => {
-    const startedArr = [...todoList];
-
+    setPrevTodo([...todoList]);
     if (!sortedList) {
       console.log("первый вариант");
-      const sortedArr = [...startedArr].sort((a, b) =>
+      const sortedArr = [...todoList].sort((a, b) =>
         a.task.localeCompare(b.task)
       );
-      setTodoList(sortedArr);
+      setTodoList([...sortedArr]);
       setSortedList(!sortedList);
     }
     if (sortedList) {
       console.log("второй вариант");
-      setTodoList(startedArr);
+      console.log(prevTodo);
+      setTodoList([...prevTodo]);
       setSortedList(!sortedList);
     }
   };
