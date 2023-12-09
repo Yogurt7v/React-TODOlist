@@ -7,6 +7,7 @@ import { Search } from "./components/Search";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
+  const [searchVisble, setSearchVisble] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:3004/todo")
@@ -59,12 +60,19 @@ function App() {
       });
   };
 
+  const visible = () => {
+    console.log("searchVisble", searchVisble);
+    setSearchVisble(!searchVisble);
+  };
+
   return (
     <div className="App">
       <h1>To Do List</h1>
       <AddPost create={create} />
-      <button>Search</button>
-      <Search todoList={todoList}></Search>
+      <button className="searchButton" onClick={visible}>
+        Search
+      </button>
+      <Search todoList={todoList} searchVisble={searchVisble}></Search>
       {todoList.map((todo, index) => (
         <Post
           key={todo.id}

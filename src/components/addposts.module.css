@@ -1,0 +1,19 @@
+.allPostsForm {
+  padding: 0 50px 0 50px;
+  display: flex;
+  gap: 10px;
+}
+
+.allPostsForm input {
+  width: 100%;
+  height: 50px;
+  border-bottom: 0.5px solid black;
+}
+
+.allPostsForm button {
+  height: 50px;
+  border: 0.5px solid grey;
+  border-radius: 4px;
+  background-color: rgb(89, 134, 219);
+  color: white;
+}
