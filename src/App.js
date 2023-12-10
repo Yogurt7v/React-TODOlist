@@ -4,26 +4,37 @@ import { AddPost } from "./components/AddPost";
 import { useState, useEffect } from "react";
 import Post from "./components/Post";
 import { Search } from "./components/Search";
+import { ref, onValue } from "firebase/database";
+import { db } from "./firebase";
 
 function App() {
   const [todoList, setTodoList] = useState([]);
   const [searchVisble, setSearchVisble] = useState(false);
   const [sortedList, setSortedList] = useState(false);
   const [prevTodo, setPrevTodo] = useState([...todoList]);
-  const ref = useRef(null);
+  const r = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
 
-    fetch("http://localhost:3004/todo")
-      .then((loadedData) => loadedData.json())
-      .then((loadedToDos) => {
-        setTodoList(loadedToDos);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    const todoListRef = ref(db, "todo");
+
+    return onValue(todoListRef, (snapshot) => {
+      const data = snapshot.val() || [];
+      console.log(data);
+      setTodoList(data);
+      setIsLoading(false);
+    });
+
+    // fetch("http://localhost:3004/todo")
+    //   .then((loadedData) => loadedData.json())
+    //   .then((loadedToDos) => {
+    //     setTodoList(loadedToDos);
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
   }, []);
 
   const create = (todo) => {
@@ -96,7 +107,7 @@ function App() {
     <div className="App">
       <h1>To Do List</h1>
       <AddPost create={create} />
-      <button className="sortButton" onClick={sort} ref={ref}>
+      <button className="sortButton" onClick={sort} ref={r}>
         Sort
       </button>
       <button className="searchButton" onClick={visible}>
