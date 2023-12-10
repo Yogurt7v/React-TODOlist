@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useRef } from "react";
 import { AddPost } from "./components/AddPost";
 import { useState, useEffect } from "react";
 import Post from "./components/Post";
@@ -10,6 +10,7 @@ function App() {
   const [searchVisble, setSearchVisble] = useState(false);
   const [sortedList, setSortedList] = useState(false);
   const [prevTodo, setPrevTodo] = useState([...todoList]);
+  const ref = useRef(null);
 
   useEffect(() => {
     fetch("http://localhost:3004/todo")
@@ -69,18 +70,19 @@ function App() {
   const sort = () => {
     setPrevTodo([...todoList]);
     if (!sortedList) {
-      console.log("первый вариант");
       const sortedArr = [...todoList].sort((a, b) =>
         a.task.localeCompare(b.task)
       );
       setTodoList([...sortedArr]);
       setSortedList(!sortedList);
+      ref.current.style.backgroundColor = "#5986db";
+      ref.current.style.color = "white";
     }
     if (sortedList) {
-      console.log("второй вариант");
-      console.log(prevTodo);
       setTodoList([...prevTodo]);
       setSortedList(!sortedList);
+      ref.current.style.backgroundColor = "white";
+      ref.current.style.color = "black";
     }
   };
 
@@ -88,11 +90,11 @@ function App() {
     <div className="App">
       <h1>To Do List</h1>
       <AddPost create={create} />
+      <button className="sortButton" onClick={sort} ref={ref}>
+        Sort
+      </button>
       <button className="searchButton" onClick={visible}>
         Search
-      </button>
-      <button className="sortButton" onClick={sort}>
-        Sort
       </button>
       <Search todoList={todoList} searchVisble={searchVisble}></Search>
       {todoList.map((todo, index) => (
