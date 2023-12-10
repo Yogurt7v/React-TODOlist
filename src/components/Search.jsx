@@ -7,7 +7,7 @@ export const Search = ({todoList, searchVisble}) => {
 	const startSearch = (event)=>{
 		setSearch(event.target.value);
 	}
-	const foundSearch = todoList.find((item) => item.task === search);
+	const foundSearch = Object.values(todoList).find((item) => item.task === search);
 	const message = foundSearch ? 'Такое дело уже есть' : '';
 
 	return (

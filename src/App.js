@@ -4,16 +4,16 @@ import { AddPost } from "./components/AddPost";
 import { useState, useEffect } from "react";
 import Post from "./components/Post";
 import { Search } from "./components/Search";
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, push } from "firebase/database";
 import { db } from "./firebase";
 
 function App() {
-  const [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useState({});
   const [searchVisble, setSearchVisble] = useState(false);
   const [sortedList, setSortedList] = useState(false);
-  const [prevTodo, setPrevTodo] = useState([...todoList]);
+  const [prevTodo, setPrevTodo] = useState({ ...todoList });
   const r = useRef(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
@@ -21,7 +21,7 @@ function App() {
     const todoListRef = ref(db, "todo");
 
     return onValue(todoListRef, (snapshot) => {
-      const data = snapshot.val() || [];
+      const data = snapshot.val() || {};
       console.log(data);
       setTodoList(data);
       setIsLoading(false);
@@ -38,19 +38,25 @@ function App() {
   }, []);
 
   const create = (todo) => {
-    let id = Math.floor(Math.random() * 10000000);
-    fetch("http://localhost:3004/todo/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json;charset=utf-8" },
-      body: JSON.stringify({
-        id: id,
-        task: `${todo}`,
-      }),
-    })
-      .then((rawResponse) => rawResponse.json())
-      .then((response) => {
-        setTodoList([...todoList, response]);
-      });
+    const todoListRef = ref(db, "todo");
+
+    push(todoListRef, {
+      id: Math.floor(Math.random() * 10000000),
+      task: `${todo}`,
+    });
+    // let id = Math.floor(Math.random() * 10000000);
+    // fetch("http://localhost:3004/todo/", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json;charset=utf-8" },
+    //   body: JSON.stringify({
+    //     id: id,
+    //     task: `${todo}`,
+    //   }),
+    // })
+    //   .then((rawResponse) => rawResponse.json())
+    //   .then((response) => {
+    //     setTodoList([...todoList, response]);
+    //   });
   };
   const edit = (i) => {
     let index = todoList.findIndex((el) => el.id === i);
@@ -119,7 +125,7 @@ function App() {
           <div class="loader"></div>
         </div>
       ) : (
-        todoList.map((todo, index) => (
+        Object.values(todoList).map((todo, index) => (
           <Post
             key={todo.id}
             task={todo}
