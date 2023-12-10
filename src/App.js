@@ -4,7 +4,7 @@ import { AddPost } from "./components/AddPost";
 import { useState, useEffect } from "react";
 import Post from "./components/Post";
 import { Search } from "./components/Search";
-import { ref, onValue, push } from "firebase/database";
+import { ref, onValue, push, set, remove } from "firebase/database";
 import { db } from "./firebase";
 
 function App() {
@@ -22,19 +22,10 @@ function App() {
 
     return onValue(todoListRef, (snapshot) => {
       const data = snapshot.val() || {};
-      console.log(data);
+      // console.log(Object.values(data));
       setTodoList(data);
       setIsLoading(false);
     });
-
-    // fetch("http://localhost:3004/todo")
-    //   .then((loadedData) => loadedData.json())
-    //   .then((loadedToDos) => {
-    //     setTodoList(loadedToDos);
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
   }, []);
 
   const create = (todo) => {
@@ -44,46 +35,21 @@ function App() {
       id: Math.floor(Math.random() * 10000000),
       task: `${todo}`,
     });
-    // let id = Math.floor(Math.random() * 10000000);
-    // fetch("http://localhost:3004/todo/", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json;charset=utf-8" },
-    //   body: JSON.stringify({
-    //     id: id,
-    //     task: `${todo}`,
-    //   }),
-    // })
-    //   .then((rawResponse) => rawResponse.json())
-    //   .then((response) => {
-    //     setTodoList([...todoList, response]);
-    //   });
   };
   const edit = (i) => {
-    let index = todoList.findIndex((el) => el.id === i);
-    fetch(`http://localhost:3004/todo/${todoList[index].id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json;charset=utf-8" },
-      body: JSON.stringify({
-        id: `${todoList[index].id}`,
-        task: prompt("Измените задачу"),
-      }),
-    })
-      .then((rawResponse) => rawResponse.json())
-      .then((response) => {
-        todoList[index] = response;
-        setTodoList([...todoList]);
-      });
+    let index = Object.values(todoList).findIndex((el) => el.id === i);
+
+    const todoListRef = ref(db, `todo/${Object.entries(todoList)[index][0]}`);
+    set(todoListRef, {
+      id: i,
+      task: prompt("Измените задачу"),
+    });
   };
 
-  const deletePost = (id) => {
-    fetch(`http://localhost:3004/todo/${id}`, {
-      method: "DELETE",
-    })
-      .then((rawResponse) => rawResponse.json())
-      .then((response) => {
-        setTodoList([...todoList]);
-        setTodoList(todoList.filter((todo) => todo.id !== id));
-      });
+  const deletePost = (i) => {
+    let index = Object.values(todoList).findIndex((el) => el.id === i);
+    const removeListRef = ref(db, `todo/${Object.entries(todoList)[index][0]}`);
+    remove(removeListRef);
   };
 
   const visible = () => {
@@ -91,21 +57,24 @@ function App() {
   };
 
   const sort = () => {
-    setPrevTodo([...todoList]);
+    setPrevTodo({ ...todoList });
     if (!sortedList) {
-      const sortedArr = [...todoList].sort((a, b) =>
+      let a = JSON.stringify(todoList);
+      let sortedObj = JSON.parse(a);
+
+      sortedObj = Object.values(sortedObj).sort((a, b) =>
         a.task.localeCompare(b.task)
       );
-      setTodoList([...sortedArr]);
+      setTodoList(sortedObj);
       setSortedList(!sortedList);
-      ref.current.style.backgroundColor = "#5986db";
-      ref.current.style.color = "white";
+      r.current.style.backgroundColor = "#5986db";
+      r.current.style.color = "white";
     }
     if (sortedList) {
-      setTodoList([...prevTodo]);
+      setTodoList({ ...prevTodo });
       setSortedList(!sortedList);
-      ref.current.style.backgroundColor = "white";
-      ref.current.style.color = "black";
+      r.current.style.backgroundColor = "white";
+      r.current.style.color = "black";
     }
   };
 
