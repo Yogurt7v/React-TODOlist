@@ -11,12 +11,18 @@ function App() {
   const [sortedList, setSortedList] = useState(false);
   const [prevTodo, setPrevTodo] = useState([...todoList]);
   const ref = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
+
     fetch("http://localhost:3004/todo")
       .then((loadedData) => loadedData.json())
       .then((loadedToDos) => {
         setTodoList(loadedToDos);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
@@ -97,15 +103,21 @@ function App() {
         Search
       </button>
       <Search todoList={todoList} searchVisble={searchVisble}></Search>
-      {todoList.map((todo, index) => (
-        <Post
-          key={todo.id}
-          task={todo}
-          index={index}
-          deletePost={deletePost}
-          edit={edit}
-        />
-      ))}
+      {isLoading ? (
+        <div className="loaderWrapper">
+          <div class="loader"></div>
+        </div>
+      ) : (
+        todoList.map((todo, index) => (
+          <Post
+            key={todo.id}
+            task={todo}
+            index={index}
+            deletePost={deletePost}
+            edit={edit}
+          />
+        ))
+      )}
       <p className="AppFooter"></p>
     </div>
   );

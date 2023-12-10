@@ -29,6 +29,12 @@ input:focus-visible {
   display: flex;
   justify-content: flex-end;
 }
+
+.buttonWrapper {
+  display: flex;
+  gap: 20px;
+}
+
 button {
   border: none;
   border-radius: 4px;
